@@ -2,7 +2,6 @@ version: "3"
 services:
   hapi-fhir-jpaserver-start:
     build: .
-    container_name: hapi-fhir-jpaserver-start
     restart: on-failure
     environment:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://hapi-fhir-postgres:5432/hapi"
@@ -10,16 +9,58 @@ services:
       SPRING_DATASOURCE_PASSWORD: "admin"
       SPRING_DATASOURCE_DRIVERCLASSNAME: "org.postgresql.Driver"
     ports:
-      - "8080:8080"
-  hapi-fhir-postgres:
+      - "8080:8080" 
+    configs:
+      - source: hapi
+        target: /app/config/application.yaml
+    depends_on:
+      - hapi-postgres
+  hapi-postgres:
     image: postgres:15-alpine
     container_name: hapi-fhir-postgres
     restart: always
-    environment:
+    ports:
+      - "5433:5432"
+    environment: 
       POSTGRES_DB: "hapi"
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "admin"
     volumes:
       - hapi-fhir-postgres:/var/lib/postgresql/data
+  
+  keycloak-postgres:
+    container_name: keycloak-postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: mmpg_user
+      POSTGRES_PASSWORD: mmpg_password
+      POSTGRES_DB: pdb
+    volumes:
+      - ".volume/postgres_data:/var/lib/postgresql/data"  # Optional volume to persist Postgres data
+
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:latest
+    ports:
+      - "8081:8080"
+    environment:
+      KEYCLOAK_ADMIN: mmkc_user
+      KEYCLOAK_ADMIN_PASSWORD: mmkc_password
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak-postgres/pdb
+      KC_DB_USERNAME: mmpg_user
+      KC_DB_PASSWORD: mmpg_password
+      KC_HOSTNAME_STRICT: false
+    command:
+      - start
+      - --http-enabled=true
+    depends_on:
+      - keycloak-postgres
+
 volumes:
   hapi-fhir-postgres:
+configs:
+  hapi:
+     file: ./application.custom.yaml 
+  hapi-extra-classes:
+     file: ./hapi-extra-classes

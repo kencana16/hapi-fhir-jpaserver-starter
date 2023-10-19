@@ -388,6 +388,32 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- OPENSRP -->
+        <!-- <dependency>
+            <groupId>org.smartregister</groupId>
+            <artifactId>hapi-fhir-keycloak</artifactId>
+            <version>0.0.7-SNAPSHOT</version>
+        </dependency> -->
+
+        
+        <!-- MANUAL -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${spring_boot_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+            <version>${spring_boot_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+            <version>${spring_boot_version}</version>
+        </dependency> 
+        
+
     </dependencies>
 
     <build>

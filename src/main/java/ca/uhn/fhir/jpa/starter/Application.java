@@ -25,8 +25,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Import;
 
-@ServletComponentScan(basePackageClasses = {RestfulServer.class})
-@SpringBootApplication(exclude = {ElasticsearchRestClientAutoConfiguration.class, ThymeleafAutoConfiguration.class})
+@ServletComponentScan(basePackageClasses = { RestfulServer.class })
+@SpringBootApplication(exclude = { ElasticsearchRestClientAutoConfiguration.class, ThymeleafAutoConfiguration.class })
 @Import({
 	StarterCrR4Config.class,
 	StarterCrDstu3Config.class,
@@ -56,7 +56,7 @@ public class Application extends SpringBootServletInitializer {
 	@Bean
 	@Conditional(OnEitherVersion.class)
 	public ServletRegistrationBean hapiServletRegistration(RestfulServer restfulServer) {
-		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean();
+		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean<RestfulServer>();
 		beanFactory.autowireBean(restfulServer);
 		servletRegistrationBean.setServlet(restfulServer);
 		servletRegistrationBean.addUrlMappings("/fhir/*");

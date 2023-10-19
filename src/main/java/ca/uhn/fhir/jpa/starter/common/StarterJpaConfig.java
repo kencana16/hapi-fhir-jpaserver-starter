@@ -44,6 +44,7 @@ import ca.uhn.fhir.jpa.starter.annotations.OnCorsPresent;
 import ca.uhn.fhir.jpa.starter.annotations.OnImplementationGuidesPresent;
 import ca.uhn.fhir.jpa.starter.common.validation.IRepositoryValidationInterceptorFactory;
 import ca.uhn.fhir.jpa.starter.ig.IImplementationGuideOperationProvider;
+import ca.uhn.fhir.jpa.starter.custom.interceptor.CustomAuthorizationInterceptor;
 import ca.uhn.fhir.jpa.starter.util.EnvironmentHelper;
 import ca.uhn.fhir.jpa.starter.ig.IImplementationGuideOperationProvider;
 import ca.uhn.fhir.jpa.subscription.util.SubscriptionDebugLogInterceptor;
